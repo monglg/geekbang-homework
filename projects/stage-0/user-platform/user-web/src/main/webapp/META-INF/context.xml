@@ -21,4 +21,9 @@
 			  type="org.geektimes.projects.user.service.JpaUserServiceImpl"
 			  factory="org.apache.naming.factory.BeanFactory" />
 
+
+	<Resource name="bean/Validator" auth="Container"
+			  type="org.geektimes.projects.user.validator.DelegatingValidator"
+			  factory="org.apache.naming.factory.BeanFactory" />
+
 </Context>

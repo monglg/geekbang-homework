@@ -1,6 +1,8 @@
 package org.geektimes.projects.user.domain;
 
-import javax.persistence.*;
+import org.geektimes.projects.user.validator.CustomEmail;
+
+import javax.persistence.*;;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -21,6 +23,7 @@ public class User implements Serializable {
     @Column
     private String name;
     @Column
+    @CustomEmail
     private String password;
     @Column
     private String email;
@@ -36,6 +39,7 @@ public class User implements Serializable {
     }
 
     public String getName() {
+
         return name;
     }
 

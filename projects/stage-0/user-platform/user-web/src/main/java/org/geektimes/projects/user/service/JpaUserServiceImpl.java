@@ -1,5 +1,7 @@
 package org.geektimes.projects.user.service;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.repository.DatabaseUserRepository;
 import org.geektimes.projects.user.repository.UserRepository;
@@ -8,6 +10,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,6 +28,8 @@ public class JpaUserServiceImpl implements UserService {
 
     @Resource(name = "bean/EntityManager")
     private EntityManager entityManager;
+    @Resource(name = "bean/Validator")
+    private Validator validator;
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -32,6 +37,11 @@ public class JpaUserServiceImpl implements UserService {
 
     @Override
     public boolean register(User user) {
+
+        Set<ConstraintViolation<User>> validates = validator.validate(user);
+        logger.log(Level.SEVERE, "" + validates.size());
+
+
         entityManager.getTransaction().begin();
         entityManager.persist(user);
         entityManager.getTransaction().commit();
