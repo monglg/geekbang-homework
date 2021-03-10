@@ -2,6 +2,7 @@ package org.geektimes.projects.user.service;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
+import jakarta.validation.constraints.Email;
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.repository.DatabaseUserRepository;
 import org.geektimes.projects.user.repository.UserRepository;
@@ -22,6 +23,7 @@ import java.util.logging.Logger;
  * @Date: 2021-03-03
  * @Time: 5:27 下午
  */
+@Email
 public class JpaUserServiceImpl implements UserService {
 
     Logger logger = Logger.getLogger(JpaUserServiceImpl.class.getName());
@@ -39,8 +41,10 @@ public class JpaUserServiceImpl implements UserService {
     public boolean register(User user) {
 
         Set<ConstraintViolation<User>> validates = validator.validate(user);
-        logger.log(Level.SEVERE, "" + validates.size());
 
+        validates.forEach(item -> {
+            logger.log(Level.SEVERE, "" + item.getMessage());
+        });
 
         entityManager.getTransaction().begin();
         entityManager.persist(user);
