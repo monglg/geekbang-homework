@@ -33,6 +33,7 @@ public class ConnectionManager {
         try {
             synchronized (ConnectionManager.class) {
                 if (connection == null) {
+
                     String databaseURL = "jdbc:derby:user-platform;create=true";
                     connection = DriverManager.getConnection(databaseURL);
 

@@ -2,7 +2,7 @@ package org.geektimes.projects.user.web.controller;
 
 import org.geektimes.projects.user.domain.User;
 import org.geektimes.projects.user.service.UserService;
-import org.geektimes.projects.user.service.UserServiceImpl;
+import org.geektimes.projects.user.web.context.ComponentContext;
 import org.geektimes.projects.user.web.request.AccountRequest;
 import org.geektimes.projects.user.web.request.RegisterRequest;
 import org.geektimes.projects.user.web.response.CommonResponse;
@@ -37,11 +37,17 @@ public class LoginRestController implements RestController {
     @POST
     @ResponsePage
     public String doRegister(@PaddingParam RegisterRequest account, HttpServletRequest request) throws Throwable {
-        UserService userService = new UserServiceImpl();
+        UserService userService = ComponentContext.getComponentContext().getComponent("bean/UserService");
         request.getServletContext().log(new JSONObject(account).toString());
-        userService.register(account);
-        User user = userService.queryUserByNameAndPassword(account.getName(), account.getPassword());
+        User userRequest = new User();
+        userRequest.setName(account.getName());
+        userRequest.setPassword(account.getPassword());
+        userRequest.setPhoneNumber(account.getPhoneNumber());
+        userRequest.setEmail(account.getEmail());
+        userService.register(userRequest);
+        User user = userService.queryUserByNameAndPassword(userRequest.getName(), account.getPassword());
         request.setAttribute("userName", account.getName());
+        request.setAttribute("success", account.getName());
         request.setAttribute("statusName", user != null ? "成功" : "失败");
         return "register-success.jsp";
     }

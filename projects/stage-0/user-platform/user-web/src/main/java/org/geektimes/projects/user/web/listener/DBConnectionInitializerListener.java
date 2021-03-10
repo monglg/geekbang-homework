@@ -1,15 +1,16 @@
 package org.geektimes.projects.user.web.listener;
 
+import org.geektimes.projects.user.web.context.ComponentContext;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 
-@WebListener
 public class DBConnectionInitializerListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-
+        ComponentContext context = new ComponentContext();
+        context.init(sce.getServletContext());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package org.geektimes.function;
 
+import org.json.JSONObject;
+
 @FunctionalInterface
 public interface ThrowableFunction<T, R> {
 
@@ -24,6 +26,7 @@ public interface ThrowableFunction<T, R> {
         try {
             result = apply(t);
         } catch (Throwable e) {
+            System.out.println("JSONObject error:" + JSONObject.valueToString( e));
             throw new RuntimeException(e.getCause());
         }
         return result;

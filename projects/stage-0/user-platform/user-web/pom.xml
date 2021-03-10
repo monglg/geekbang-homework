@@ -38,6 +38,17 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
         </dependency>
+        <!-- Hibernate ORM Core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+
+        <!-- Hibernate JPA support -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
 
     </dependencies>
 
@@ -48,6 +59,13 @@
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derby</artifactId>
+                        <version>${derby.version}</version>
+                    </dependency>
+                </dependencies>
                 <executions>
                     <execution>
                         <id>tomcat-run</id>
@@ -59,6 +77,7 @@
                         <configuration>
                             <!-- ServletContext 路径 -->
                             <path>/</path>
+                            <enableNaming>true</enableNaming>
                         </configuration>
                     </execution>
                 </executions>
